@@ -25,14 +25,13 @@ const User = require('./users-model');
     "message": "You shall not pass!"
   }
  */
-router.get('/api/users', restricted, (req, res) => {
-  User.find()
-    .then(use => {
-      res.status(200).json(use);
-    })
-    .catch(() => {
-      res.status(401).json({ message: 'You shall not pass!' });
-    })
+router.get('/', restricted, async (req, res, next) => {
+  try {
+    const users = await User.find()
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
 })
 
 
